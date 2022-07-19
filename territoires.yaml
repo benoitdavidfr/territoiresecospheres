@@ -1,0 +1,515 @@
+title: registre des territoires
+$schema:
+  $id: 
+  definitions:
+    spatial:
+      description: boîte englobante sous la forme DCMI Box Encoding Scheme encodé en Yaml/JSON et en WGS84
+      type: object
+      additionalProperties: false
+      properties:
+        westlimit:
+          description: longitude minimum en degrés décimaux en WGS84
+          type: number
+        southlimit:
+          description: latitude minimum en degrés décimaux en WGS84
+          type: number
+        eastlimit:
+          description: longitude maximum en degrés décimaux en WGS84
+          type: number
+        northlimit:
+          description: latitude maximum en degrés décimaux en WGS84
+          type: number
+  type: object
+  additionalProperties: false
+  properties:
+    title:
+      description: titre du document
+      type: string
+    $schema:
+      description: schema JSON du document
+      oneOf:
+        - $ref: http://json-schema.org/schema#
+        - type: string
+    régions-métrople:
+      description: dictionnaire régions de métropole plus la Corse indexées sur leur code ISO 3166-2 sur 3 caractères
+      type: object
+      additionalProperties: false
+      patternProperties:
+        '^[A-Z]{3}$':
+          type: object
+          additionalProperties: false
+          properties:
+            prefLabel:
+              description: le nom officiel en français
+              type: string
+            spatial:
+              description: boîte englobante
+              $ref: '#/definitions/spatial'
+    départements-métropole:
+      description: dictionnaire des départements de métropole indexés sur leur code Insee précédé de la letttre 'D'
+      type: object
+      additionalProperties: false
+      patternProperties:
+        '^D([0-9]{2}|2[AB])$':
+          type: object
+          additionalProperties: false
+          properties:
+            prefLabel:
+              description: le nom officiel en français
+              type: string
+            codeRégion:
+              description: code à 3 caractères de la région à laquelle le département appartient
+              type: string
+              pattern: '^[A-Z]{3}$'
+            spatial:
+              description: boîte englobante
+              $ref: '#/definitions/spatial'
+    outre-mer:
+      description: |
+        dictionnaire des territoires d'outre-mer quels que soit leur statut, indexés sur le coude ISO 3166-1 sur 3 caractères.  
+        Comprend les départements d'outre-mer, les collectivités d'outre-mer, la Nouvelle-Calédonie et les TAAF.
+      type: object
+      additionalProperties: false
+      patternProperties:
+        '^[A-Z]{3}$':
+          type: object
+          additionalProperties: false
+          properties:
+            prefLabel:
+              description: le nom officiel en français
+              type: string
+            codeInsee:
+              description: code Insee
+              type: integer
+              minimum: 970
+              maximum: 989
+            codeIso2:
+              description: code ISO ISO 3166-1 sur 2 caractères
+              type: string
+              pattern: '^[A-Z]{2}$'
+            uriUE:
+              description: URI de l'Union Européenne
+              type: string
+            spatial:
+              description: boîte englobante
+              $ref: '#/definitions/spatial'
+    autres-territoires:
+      description: dictionnaire des autres territoires
+      type: object
+      additionalProperties: false
+      patternProperties:
+        '^[+A-Z]+$':
+          type: object
+          additionalProperties: false
+          properties:
+            prefLabel:
+              description: le nom officiel en français
+              type: string
+            uriInsee:
+              description: URI INSEE
+              type: string
+            spatial:
+              description: boîte englobante
+              $ref: '#/definitions/spatial'
+
+régions-métrople:
+  ARA:
+    prefLabel: Auvergne-Rhône-Alpes
+  BFC:
+    prefLabel: Bourgogne-Franche-Comté
+  BRE:
+    prefLabel: Bretagne
+  CVL:
+    prefLabel: Centre-Val de Loire
+  GES:
+    prefLabel: Grand Est
+  HDF:
+    prefLabel: Hauts-de-France
+  IDF:
+    prefLabel: Île-de-France
+  NOR:
+    prefLabel: Normandie
+  NAQ:
+    prefLabel: Nouvelle-Aquitaine
+  OCC:
+    prefLabel: Occitanie
+  PDL:
+    prefLabel: Pays de la Loire
+  PAC:
+    prefLabel: Provence-Alpes-Côte d'Azur
+  COR:
+    prefLabel: Corse
+  
+départements-métropole:
+  D01:
+      prefLabel: Ain
+      codeRégion: ARA
+  D02:
+      prefLabel: Aisne
+      codeRégion: HDF
+  D03:
+      prefLabel: Allier
+      codeRégion: ARA
+  D04:
+      prefLabel: Alpes-de-Haute-Provence
+      codeRégion: PAC
+  D05:
+      prefLabel: Hautes-Alpes
+      codeRégion: PAC
+  D06:
+      prefLabel: Alpes-Maritimes
+      codeRégion: PAC
+  D07:
+      prefLabel: Ardèche
+      codeRégion: ARA
+  D08:
+      prefLabel: Ardennes
+      codeRégion: GES
+  D09:
+      prefLabel: Ariège
+      codeRégion: OCC
+  D10:
+      prefLabel: Aube
+      codeRégion: GES
+  D11:
+      prefLabel: Aude
+      codeRégion: OCC
+  D12:
+      prefLabel: Aveyron
+      codeRégion: OCC
+  D13:
+      prefLabel: Bouches-du-Rhône
+      codeRégion: PAC
+  D14:
+      prefLabel: Calvados
+      codeRégion: NOR
+  D15:
+      prefLabel: Cantal
+      codeRégion: ARA
+  D16:
+      prefLabel: Charente
+      codeRégion: NAQ
+  D17:
+      prefLabel: Charente-Maritime
+      codeRégion: NAQ
+  D18:
+      prefLabel: Cher
+      codeRégion: CVL
+  D19:
+      prefLabel: Corrèze
+      codeRégion: NAQ
+  D2A:
+      prefLabel: Corse-du-Sud
+      codeRégion: COR
+  D2B:
+      prefLabel: Haute-Corse
+      codeRégion: COR
+  D21:
+      prefLabel: "Côte-d'Or"
+      codeRégion: BFC
+  D22:
+      prefLabel: "Côtes-d'Armor"
+      codeRégion: BRE
+  D23:
+      prefLabel: Creuse
+      codeRégion: NAQ
+  D24:
+      prefLabel: Dordogne
+      codeRégion: NAQ
+  D25:
+      prefLabel: Doubs
+      codeRégion: BFC
+  D26:
+      prefLabel: Drôme
+      codeRégion: ARA
+  D27:
+      prefLabel: Eure
+      codeRégion: NOR
+  D28:
+      prefLabel: Eure-et-Loir
+      codeRégion: CVL
+  D29:
+      prefLabel: Finistère
+      codeRégion: BRE
+  D30:
+      prefLabel: Gard
+      codeRégion: OCC
+  D31:
+      prefLabel: Haute-Garonne
+      codeRégion: OCC
+  D32:
+      prefLabel: Gers
+      codeRégion: OCC
+  D33:
+      prefLabel: Gironde
+      codeRégion: NAQ
+  D34:
+      prefLabel: Hérault
+      codeRégion: OCC
+  D35:
+      prefLabel: Ille-et-Vilaine
+      codeRégion: BRE
+  D36:
+      prefLabel: Indre
+      codeRégion: CVL
+  D37:
+      prefLabel: Indre-et-Loire
+      codeRégion: CVL
+  D38:
+      prefLabel: Isère
+      codeRégion: ARA
+  D39:
+      prefLabel: Jura
+      codeRégion: BFC
+  D40:
+      prefLabel: Landes
+      codeRégion: NAQ
+  D41:
+      prefLabel: Loir-et-Cher
+      codeRégion: CVL
+  D42:
+      prefLabel: Loire
+      codeRégion: ARA
+  D43:
+      prefLabel: Haute-Loire
+      codeRégion: ARA
+  D44:
+      prefLabel: Loire-Atlantique
+      codeRégion: PDL
+  D45:
+      prefLabel: Loiret
+      codeRégion: CVL
+  D46:
+      prefLabel: Lot
+      codeRégion: OCC
+  D47:
+      prefLabel: Lot-et-Garonne
+      codeRégion: NAQ
+  D48:
+      prefLabel: Lozère
+      codeRégion: OCC
+  D49:
+      prefLabel: Maine-et-Loire
+      codeRégion: PDL
+  D50:
+      prefLabel: Manche
+      codeRégion: NOR
+  D51:
+      prefLabel: Marne
+      codeRégion: GES
+  D52:
+      prefLabel: Haute-Marne
+      codeRégion: GES
+  D53:
+      prefLabel: Mayenne
+      codeRégion: PDL
+  D54:
+      prefLabel: Meurthe-et-Moselle
+      codeRégion: GES
+  D55:
+      prefLabel: Meuse
+      codeRégion: GES
+  D56:
+      prefLabel: Morbihan
+      codeRégion: BRE
+  D57:
+      prefLabel: Moselle
+      codeRégion: GES
+  D58:
+      prefLabel: Nièvre
+      codeRégion: BFC
+  D59:
+      prefLabel: Nord
+      codeRégion: HDF
+  D60:
+      prefLabel: Oise
+      codeRégion: HDF
+  D61:
+      prefLabel: Orne
+      codeRégion: NOR
+  D62:
+      prefLabel: Pas-de-Calais
+      codeRégion: HDF
+  D63:
+      prefLabel: Puy-de-Dôme
+      codeRégion: ARA
+  D64:
+      prefLabel: Pyrénées-Atlantiques
+      codeRégion: NAQ
+  D65:
+      prefLabel: Hautes-Pyrénées
+      codeRégion: OCC
+  D66:
+      prefLabel: Pyrénées-Orientales
+      codeRégion: OCC
+  D67:
+      prefLabel: Bas-Rhin
+      codeRégion: GES
+  D68:
+      prefLabel: Haut-Rhin
+      codeRégion: GES
+  D69:
+      prefLabel: Rhône
+      codeRégion: ARA
+  D70:
+      prefLabel: Haute-Saône
+      codeRégion: BFC
+  D71:
+      prefLabel: Saône-et-Loire
+      codeRégion: BFC
+  D72:
+      prefLabel: Sarthe
+      codeRégion: PDL
+  D73:
+      prefLabel: Savoie
+      codeRégion: ARA
+  D74:
+      prefLabel: Haute-Savoie
+      codeRégion: ARA
+  D75:
+      prefLabel: Paris
+      codeRégion: IDF
+  D76:
+      prefLabel: Seine-Maritime
+      codeRégion: NOR
+  D77:
+      prefLabel: Seine-et-Marne
+      codeRégion: IDF
+  D78:
+      prefLabel: Yvelines
+      codeRégion: IDF
+  D79:
+      prefLabel: Deux-Sèvres
+      codeRégion: NAQ
+  D80:
+      prefLabel: Somme
+      codeRégion: HDF
+  D81:
+      prefLabel: Tarn
+      codeRégion: OCC
+  D82:
+      prefLabel: Tarn-et-Garonne
+      codeRégion: OCC
+  D83:
+      prefLabel: Var
+      codeRégion: PAC
+  D84:
+      prefLabel: Vaucluse
+      codeRégion: PAC
+  D85:
+      prefLabel: Vendée
+      codeRégion: PDL
+  D86:
+      prefLabel: Vienne
+      codeRégion: NAQ
+  D87:
+      prefLabel: Haute-Vienne
+      codeRégion: NAQ
+  D88:
+      prefLabel: Vosges
+      codeRégion: GES
+  D89:
+      prefLabel: Yonne
+      codeRégion: BFC
+  D90:
+      prefLabel: 'Territoire de Belfort'
+      codeRégion: BFC
+  D91:
+      prefLabel: Essonne
+      codeRégion: IDF
+  D92:
+      prefLabel: Hauts-de-Seine
+      codeRégion: IDF
+  D93:
+      prefLabel: Seine-Saint-Denis
+      codeRégion: IDF
+  D94:
+      prefLabel: Val-de-Marne
+      codeRégion: IDF
+  D95:
+      prefLabel: "Val-d'Oise"
+      codeRégion: IDF
+
+outre-mer:
+  GLP:
+    prefLabel: Guadeloupe
+    codeInsee: 971
+    codeIso2: GP
+    uriUE: http://publications.europa.eu/resource/authority/country/GLP
+    spatial: { westlimit: -61.81, southlimit: 15.83, eastlimit: -61.00, northlimit: 16.52 }
+  MTQ:
+    prefLabel: Martinique
+    codeInsee: 972
+    codeIso2: MQ
+    uriUE: http://publications.europa.eu/resource/authority/country/MTQ
+    spatial: { westlimit: -61.24, southlimit: 14.38, eastlimit: -60.80, northlimit: 14.89 }
+  GUF:
+    prefLabel: Guyane
+    codeInsee: 973
+    codeIso2: GF
+    uriUE: http://publications.europa.eu/resource/authority/country/GUF
+    spatial: { westlimit: -54.61, southlimit: 2.11, eastlimit: -51.63, northlimit: 5.75 }
+  REU:
+    prefLabel: Réunion
+    codeInsee: 974
+    codeIso2: RE
+    uriUE: http://publications.europa.eu/resource/authority/country/REU
+    spatial: { westlimit: 55.21, southlimit: -21.40, eastlimit: 55.84, northlimit: -20.87 }
+  MYT:
+    prefLabel: Mayotte
+    codeInsee: 976
+    codeIso2: YT
+    uriUE: http://publications.europa.eu/resource/authority/country/MYT
+    spatial: { westlimit: 44.95, southlimit: -13.08, eastlimit: 45.31, northlimit: -12.58 }
+  SPM:
+    prefLabel: Saint-Pierre-et-Miquelon
+    codeInsee: 975
+    codeIso2: PM
+    uriUE: http://publications.europa.eu/resource/authority/country/SPM
+    spatial: { westlimit: -56.52, southlimit: 46.74, eastlimit: -56.11, northlimit: 47.15 }
+  BLM:
+    prefLabel: Saint-Barthélemy
+    codeInsee: 977
+    codeIso2: BL
+    uriUE: http://publications.europa.eu/resource/authority/country/BLM
+    spatial: { westlimit: -62.96, southlimit: 17.87, eastlimit: -62.78, northlimit: 17.98 }
+  MAF:
+    prefLabel: Saint-Martin
+    codeInsee: 978
+    codeIso2: MF
+    uriUE: http://publications.europa.eu/resource/authority/country/MAF
+    spatial: { westlimit: -63.16, southlimit: 18.04, eastlimit: -62.97, northlimit: 18.13 }
+  WLF:
+    prefLabel: Wallis-et-Futuna
+    codeInsee: 986
+    codeIso2: WF
+    uriUE: http://publications.europa.eu/resource/authority/country/WLF
+    spatial: { westlimit: -176.28, southlimit: -14.37, eastlimit: -178.00, northlimit: -13.17 }
+  PYF:
+    prefLabel: Polynésie française
+    codeInsee: 987
+    codeIso2: PF
+    uriUE: http://publications.europa.eu/resource/authority/country/PYF
+    spatial: { westlimit: -154.73, southlimit: -27.66, eastlimit: -134.44, northlimit: -7.86 }
+  NCL:
+    prefLabel: Nouvelle-Calédonie
+    codeInsee: 988
+    codeIso2: NC
+    uriUE: http://publications.europa.eu/resource/authority/country/NCL
+    spatial: { westlimit: 158.18, southlimit: -23.03, eastlimit: 168.96, northlimit: -17.90 }
+  ATF:
+    prefLabel: Terres australes et antarctiques françaises (TAAF)
+    codeInsee: 984
+    codeIso2: TF
+    uriUE: http://publications.europa.eu/resource/authority/country/FQ0
+    spatial: { westlimit: 40.32, southlimit: -50.02, eastlimit: 77.60, northlimit: -11.50 }
+autres-territoires:
+  FXX:
+    prefLabel: Métropole
+    uriInsee: http://id.insee.fr/geo/territoireFrancais/franceMetropolitaine
+  FRA:
+    prefLabel: Métropole française plus les 5 départements d'outre-mer
+    uriInsee: http://id.insee.fr/geo/pays/france
+  FRA+OM:
+    prefLabel: territoire français y compris l'ensemble de l'outre-mer
+  

@@ -1,7 +1,7 @@
 {
     "title": "registre des territoires pour le projet Ecosphères",
-    "description": "Registre des territoires pour le projet Ecosphères.\n4 types de territoires sont définies:\n  - les régions de métropole\n  - les départements de métropole\n  - les espaces d'outre-mer quel que soit leur statut\n  - les zones maritimes, 1 par espace d'outre-mer et 3 en métropole (Manche-Mer-du-Nord, Atlantique et Méditerranée)\nLes régions et les espaces d'outre mer forment une partition du territoire français terrestre.\nChaque région de métropole se décompose en un ensemble de départements de métropole.\n",
-    "modified": "2022-07-20",
+    "description": "Registre des territoires pour le projet Ecosphères.\n4 types de territoires sont définis:\n  - les régions de métropole\n  - les départements de métropole\n  - les espaces d'outre-mer quel que soit leur statut\n  - les zones maritimes, 1 par espace d'outre-mer et 3 en métropole (Manche-Mer-du-Nord, Atlantique et Méditerranée)\nLes régions et les espaces d'outre mer forment une partition du territoire français terrestre.\nChaque région de métropole se décompose en un ensemble de départements de métropole.\nVersion initiale le 20/7/2022.\nCorrections mineures le 8/8/2022.\n",
+    "modified": "2022-08-08",
     "creator": "Benoit DAVID, MTECT/CGDD/SRI/Ecolab",
     "$schema": {
         "$id": "https://github.com/benoitdavidfr/territoiresecospheres/blob/main/territoires.yaml#/$schema",
@@ -89,7 +89,7 @@
                     }
                 ]
             },
-            "régions-métrople": {
+            "régions-métropole": {
                 "description": "dictionnaire régions de métropole plus la Corse indexées sur leur code ISO 3166-2 sur 3 caractères",
                 "type": "object",
                 "additionalProperties": false,
@@ -146,7 +146,7 @@
                 }
             },
             "zones-maritimes": {
-                "description": "Dictionnaire des zones maritimes, 1 par esapce outre-mer et 3 en métropole. Leur extension géographique correspond\nà celle de la ZEE.\n",
+                "description": "Dictionnaire des zones maritimes, 1 par espace outre-mer et 3 en métropole. Leur extension géographique correspond\nà celle de la ZEE.\n",
                 "type": "object",
                 "additionalProperties": false,
                 "patternProperties": {
@@ -161,7 +161,7 @@
             }
         }
     },
-    "régions-métrople": {
+    "régions-métropole": {
         "ARA": {
             "name": "Auvergne-Rhône-Alpes",
             "uriUE": "http://publications.europa.eu/resource/authority/atu/FRA_RG_ARA",
@@ -1609,5 +1609,6 @@
                 "northlimit": 51.56
             }
         }
-    }
+    },
+    "eof": null
 }
